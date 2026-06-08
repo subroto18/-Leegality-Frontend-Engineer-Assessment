@@ -5,9 +5,9 @@ import ProductHeader from "@/features/products/components/ProductHeader/Header";
 
 const ProductLayout = () => {
   return (
-    <div className="min-h-screen bg-slate-100">
+    <div className="min-h-screen bg-white">
       <ProductHeader />
-      <main className="py-6">
+      <main>
         <Outlet />
       </main>
     </div>

@@ -1,4 +1,4 @@
-// BrandFilter.tsx
+import Checkbox from "@/components/ui/Checkbox";
 
 const brands = ["Apple", "Samsung", "Huawei", "Xiaomi", "OPPO"];
 
@@ -9,10 +9,7 @@ const BrandFilter = () => {
 
       <div className="space-y-3">
         {brands.map((brand) => (
-          <label key={brand} className="flex items-center gap-3">
-            <input type="checkbox" />
-            <span>{brand}</span>
-          </label>
+          <Checkbox key={brand} label={brand} />
         ))}
       </div>
     </div>
