@@ -1,69 +1,44 @@
-import type { InputSize, InputUiVariant } from "./types";
+export const baseInputClass = `
+  w-full
+  transition-all
+  duration-200
+`;
 
-export const sizeClasses: Record<InputSize, string> = {
-  sm: `
-      !h-10
-      [&_.ant-input]:!text-sm
-    `,
+export const baseTextAreaClass = `
+  w-full
+  transition-all
+  duration-200
+`;
 
-  md: `
-      !h-12
-      [&_.ant-input]:!text-base
-    `,
-
-  lg: `
-      !h-14
-      [&_.ant-input]:!text-lg
-    `,
+export const sizeClasses = {
+  sm: "h-10 text-sm px-3",
+  md: "h-11 text-base px-4",
+  lg: "h-12 text-base px-4",
 };
 
-export const textAreaSizeClasses: Record<InputSize, string> = {
-  sm: `
-      [&_textarea]:!text-sm
-    `,
-  md: `
-      [&_textarea]:!text-base
-    `,
-  lg: `
-      [&_textarea]:!text-lg
-    `,
+export const textAreaSizeClasses = {
+  sm: "text-sm px-3 py-2",
+  md: "text-base px-4 py-3",
+  lg: "text-base px-4 py-3",
 };
 
 export const variantClasses = {
   default: `
-      !border-slate-200
-      !bg-slate-50
-  
-      hover:!border-primary
-      focus-within:!border-primary
-      focus-within:!shadow-[0_0_0_4px_rgba(4,122,251,0.12)]
-  
-      !text-slate-900
-      placeholder:!text-slate-400
-    `,
+    border-gray-300
+    hover:border-blue-500
+    focus:border-blue-500
+  `,
 
-  auth: `
-      !border-white/10
-      !bg-white/[0.04]
-      hover:!border-cyan-500/50
-      focus-within:!border-cyan-400
-      focus-within:!shadow-[0_0_0_4px_rgba(34,211,238,0.12)]
-  
-      !text-white
-      placeholder:!text-white/60
-    `,
+  search: `
+    !border-0
+    !rounded-xl
+    !bg-white
+    shadow-sm
+  `,
+
+  error: `
+    !border-red-500
+    hover:!border-red-500
+    focus:!border-red-500
+  `,
 };
-
-export const baseInputClass = `
-  !rounded-xl
-  transition-all
-  duration-200
-  !bg-transparent
-`;
-
-export const baseTextAreaClass = `
-  !rounded-xl
-  transition-all
-  duration-200
-  !bg-transparent
-`;

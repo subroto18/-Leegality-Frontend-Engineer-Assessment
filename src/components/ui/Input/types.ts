@@ -1,3 +1,3 @@
 export type InputSize = "sm" | "md" | "lg";
 
-export type InputUiVariant = "default" | "auth";
+export type InputUiVariant = "default" | "search" | "error";
