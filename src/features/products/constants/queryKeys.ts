@@ -1,5 +1,17 @@
 export const productQueryKeys = {
-  products: (limit: number, skip: number) => ["products", limit, skip],
+  products: ({
+    limit,
+    skip,
+    category,
+    search,
+  }: {
+    limit: number;
+    skip: number;
+    category?: string;
+    search?: string;
+  }) => ["products", limit, skip, category, search],
+
   product: (id?: string) => ["product", id],
+
   categories: ["categories"],
 };

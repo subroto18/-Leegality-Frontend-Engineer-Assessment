@@ -1,32 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Drawer } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import ProductFilters from "../components/ProductFilters/ProductFilters";
 import ProductGrid from "../components/ProductGrid/ProductGrid";
 import { useProductLayout } from "../context/useProductLayout";
 import Pagination from "@/components/ui/Pagination";
-
 import { useCategories } from "../hooks/useCategories";
-import { useProducts } from "../hooks/useProduct";
 import { getPriceRange, getUniqueBrands } from "../utils/product.utils";
+import { useProductFilter } from "../context/useProductFilter";
+import { useProducts } from "../hooks/useProducts";
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 10;
 
 const ProductListingPage = () => {
   const { setHasFilters, isFilterOpen, mobileFilterOpen, setMobileFilterOpen } =
     useProductLayout();
   const [page, setPage] = useState(1);
   const skip = (page - 1) * PAGE_SIZE;
-  const {
-    data: productsResponse,
-    isLoading,
-    isError,
-  } = useProducts({
-    limit: PAGE_SIZE,
-    skip,
-  });
 
-  const { data: categories = [] } = useCategories();
+  const { data: categories = [], isLoading: categoryLoading } = useCategories();
 
   useEffect(() => {
     setHasFilters(true);
@@ -36,11 +28,63 @@ const ProductListingPage = () => {
     };
   }, [setHasFilters]);
 
-  const products = productsResponse?.products ?? [];
-  const totalProducts = productsResponse?.total ?? 0;
-  const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
+  const { filters } = useProductFilter();
+  const { data, isLoading, isError } = useProducts({
+    limit: 10,
+    skip,
+    category: filters.categories?.join(","),
+    search: filters.search,
+  });
+
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
+
+  const products = data?.products ?? [];
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const matchesCategory =
+        !filters.categories.length ||
+        filters.categories.includes(product.category);
+
+      const matchesBrand =
+        !filters.brands.length || filters.brands.includes(product.brand);
+
+      const matchesMinPrice =
+        !filters.minPrice || product.price >= Number(filters.minPrice);
+
+      const matchesMaxPrice =
+        !filters.maxPrice || product.price <= Number(filters.maxPrice);
+
+      return (
+        matchesCategory && matchesBrand && matchesMinPrice && matchesMaxPrice
+      );
+    });
+  }, [products, filters]);
+
+  const totalProducts = data?.total ?? 0;
   const brands = getUniqueBrands(products);
   const { minPrice, maxPrice } = getPriceRange(products);
+
+  const paginatedProducts = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE;
+    return filteredProducts.slice(start, start + PAGE_SIZE);
+  }, [filteredProducts, page]);
+
+  const isClientSidePagination =
+    filters.categories.length > 0 ||
+    filters.brands.length > 0 ||
+    !!filters.minPrice ||
+    !!filters.maxPrice;
+
+  const productsToDisplay = isClientSidePagination
+    ? paginatedProducts
+    : filteredProducts;
+
+  const totalPages = isClientSidePagination
+    ? Math.ceil(filteredProducts.length / PAGE_SIZE)
+    : Math.ceil((data?.total ?? 0) / PAGE_SIZE);
 
   return (
     <>
@@ -60,6 +104,8 @@ const ProductListingPage = () => {
         >
           <ProductFilters
             categories={categories}
+            isCategoryLoading={categoryLoading}
+            isProductLoading={isLoading}
             brands={brands}
             minPrice={minPrice}
             maxPrice={maxPrice}
@@ -78,7 +124,7 @@ const ProductListingPage = () => {
           {isError ? (
             <div>Failed to load products</div>
           ) : (
-            <ProductGrid products={products} isLoading={isLoading} />
+            <ProductGrid products={productsToDisplay} isLoading={isLoading} />
           )}
 
           {!isLoading && totalPages > 1 && (

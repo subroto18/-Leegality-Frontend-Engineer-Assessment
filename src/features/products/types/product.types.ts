@@ -38,6 +38,8 @@ export interface ProductsResponse {
 
 export interface ProductFiltersProps {
   categories: Category[];
+  isCategoryLoading?: boolean;
+  isProductLoading?: boolean;
   brands: string[];
   minPrice: number;
   maxPrice: number;

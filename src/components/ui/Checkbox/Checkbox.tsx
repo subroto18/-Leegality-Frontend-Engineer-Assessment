@@ -16,7 +16,6 @@ const Checkbox = ({ label, className, ...props }: Props) => {
       )}
     >
       <AntCheckbox {...props} />
-
       {label && <span className="text-gray-700 text-base">{label}</span>}
     </label>
   );
