@@ -4,13 +4,16 @@ import App from "./App";
 import "./assets/styles/global.css";
 import "./assets/styles/theme.css";
 import ErrorBoundary from "./components/common/ErrorBoundary";
+import QueryClientProvider from "./providers/QueryClientProvider";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
 root.render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
+    <QueryClientProvider>
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    </QueryClientProvider>
   </React.StrictMode>,
 );
