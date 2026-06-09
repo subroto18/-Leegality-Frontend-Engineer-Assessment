@@ -1,12 +1,11 @@
 import { SearchOutlined } from "@ant-design/icons";
-
 import Input from "@/components/ui/Input";
-
 import BrandFilter from "./BrandFilter";
 import CategoryFilter from "./CategoryFilter";
 import PriceFilter from "./PriceFilter";
+import { ProductFiltersProps } from "../../types/product.types";
 
-const ProductFilters = () => {
+const ProductFilters = ({ categories, brands }: ProductFiltersProps) => {
   return (
     <aside className="w-full h-full bg-[#F3F3F4] p-6">
       <Input
@@ -17,15 +16,11 @@ const ProductFilters = () => {
       />
 
       <div className="mt-8 space-y-6">
-        <CategoryFilter />
-
+        <CategoryFilter categories={categories} />
         <div className="border-t border-slate-200" />
-
         <PriceFilter />
-
         <div className="border-t border-slate-200" />
-
-        <BrandFilter />
+        <BrandFilter brands={brands} />
       </div>
     </aside>
   );

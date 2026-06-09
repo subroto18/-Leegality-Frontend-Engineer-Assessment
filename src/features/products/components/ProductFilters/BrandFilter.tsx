@@ -1,17 +1,20 @@
 import Checkbox from "@/components/ui/Checkbox";
+import ExpandableFilterSection from "../ExpandableFilterSection/ExpandableFilterSection";
+interface BrandFilterProps {
+  brands: string[];
+}
 
-const brands = ["Apple", "Samsung", "Huawei", "Xiaomi", "OPPO"];
-
-const BrandFilter = () => {
+const BrandFilter = ({ brands }: BrandFilterProps) => {
   return (
     <div>
       <h3 className="font-semibold text-lg mb-4">Brands</h3>
 
-      <div className="space-y-3">
-        {brands.map((brand) => (
-          <Checkbox key={brand} label={brand} />
-        ))}
-      </div>
+      <ExpandableFilterSection
+        items={brands}
+        renderItem={(brand) => (
+          <Checkbox key={brand} label={brand} value={brand} />
+        )}
+      />
     </div>
   );
 };

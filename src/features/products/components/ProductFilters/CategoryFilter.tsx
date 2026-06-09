@@ -1,22 +1,26 @@
 import Checkbox from "@/components/ui/Checkbox";
+import ExpandableFilterSection from "../ExpandableFilterSection/ExpandableFilterSection";
+import type { Category } from "../../types/product.types";
 
-const categories = [
-  "Smartphones",
-  "Laptops",
-  "Fragrances",
-  "Groceries",
-  "Furniture",
-];
+interface CategoryFilterProps {
+  categories: Category[];
+}
 
-const CategoryFilter = () => {
+const CategoryFilter = ({ categories }: CategoryFilterProps) => {
   return (
     <div>
       <h3 className="font-semibold text-lg mb-4">Categories</h3>
-      <div className="space-y-3">
-        {categories.map((category) => (
-          <Checkbox label={category} value={category} />
-        ))}
-      </div>
+
+      <ExpandableFilterSection
+        items={categories}
+        renderItem={(category) => (
+          <Checkbox
+            key={category.slug}
+            label={category.name}
+            value={category.slug}
+          />
+        )}
+      />
     </div>
   );
 };
