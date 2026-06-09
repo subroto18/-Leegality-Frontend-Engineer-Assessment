@@ -9,7 +9,7 @@ type ContainerProps = {
 const Container = ({
   children,
   className,
-  maxWidth = "90%",
+  maxWidth = "98%",
 }: ContainerProps) => {
   return (
     <div

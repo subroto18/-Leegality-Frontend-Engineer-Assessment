@@ -1,37 +1,34 @@
-import { Card, Rate } from "antd";
-
-const reviews = [
-  {
-    reviewer: "John",
-    rating: 5,
-    comment: "Excellent product",
-  },
-  {
-    reviewer: "Alice",
-    rating: 4,
-    comment: "Very good quality",
-  },
-];
-
 const ReviewList = () => {
   return (
-    <>
-      <h2 className="text-2xl font-semibold mb-6">Reviews</h2>
+    <div className="border-t border-gray-200 pt-8">
+      <h2 className="text-3xl font-semibold mb-6">Reviews</h2>
 
-      <div className="space-y-4">
-        {reviews.map((review, index) => (
-          <Card key={index}>
-            <div className="flex justify-between mb-2">
-              <span className="font-medium">{review.reviewer}</span>
+      <div className="space-y-8">
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <h4 className="font-semibold text-xl">Emily</h4>
+            ⭐⭐⭐⭐⭐
+            <span className="text-gray-500">(4.0)</span>
+          </div>
 
-              <Rate disabled value={review.rating} />
-            </div>
+          <p className="text-gray-600">
+            Excellent phone with great camera and battery life.
+          </p>
+        </div>
 
-            <p>{review.comment}</p>
-          </Card>
-        ))}
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <h4 className="font-semibold text-xl">John</h4>
+            ⭐⭐⭐⭐⭐
+            <span className="text-gray-500">(4.0)</span>
+          </div>
+
+          <p className="text-gray-600">
+            Very satisfied with the performance and features.
+          </p>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
