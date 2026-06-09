@@ -1,4 +1,10 @@
-import { createContext, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 
 export interface ProductFilterState {
   search: string;

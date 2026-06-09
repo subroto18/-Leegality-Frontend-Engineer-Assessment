@@ -11,7 +11,7 @@ export const productQueryKeys = {
     search?: string;
   }) => ["products", limit, skip, category, search],
 
-  product: (id?: string) => ["product", id],
+  product: (id: number | undefined) => ["product", id],
 
   categories: ["categories"],
 };

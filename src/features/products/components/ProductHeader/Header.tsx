@@ -10,15 +10,26 @@ import {
 } from "@ant-design/icons";
 import { useProductLayout } from "../../context/useProductLayout";
 import Button from "@/components/ui/Button";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useProductFilter } from "../../context/useProductFilter";
 const Header = () => {
-  const { isDesktop, isMobile } = useResponsive();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { isDesktop } = useResponsive();
   const { toggleDesktopFilter, setMobileFilterOpen } = useProductLayout();
-
+  const { filters, updateFilters } = useProductFilter();
   const handleMenuClick = () => {
+    const isProductDetailPage = location.pathname.startsWith("/product/");
+    if (isProductDetailPage) {
+      navigate("/");
+      return;
+    }
+
     if (isDesktop) {
       toggleDesktopFilter();
       return;
     }
+
     setMobileFilterOpen(true);
   };
 
@@ -40,6 +51,16 @@ const Header = () => {
                 uiVariant="search"
                 size="lg"
                 className="max-w-2xl"
+                value={filters.search}
+                onChange={(e) =>
+                  updateFilters({
+                    search: e.target.value,
+                    categories: [],
+                    brands: [],
+                    maxPrice: "",
+                    minPrice: "",
+                  })
+                }
               />
             </div>
           </div>

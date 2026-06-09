@@ -21,7 +21,6 @@ export const useProducts = ({
       skip,
       search,
     }),
-
     queryFn: async () => {
       if (search?.trim()) {
         return productService.searchProducts(search);

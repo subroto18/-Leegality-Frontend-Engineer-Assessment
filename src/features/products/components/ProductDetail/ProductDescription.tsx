@@ -1,12 +1,12 @@
-const ProductDescription = () => {
+interface ProductDescriptionProps {
+  description: string;
+}
+
+const ProductDescription = ({ description }: ProductDescriptionProps) => {
   return (
     <div>
-      <h3 className="text-xl font-semibold mb-4">Description</h3>
-
-      <p className="text-gray-600 leading-7">
-        Experience the latest generation smartphone with cutting-edge
-        performance, advanced camera system, and premium build quality.
-      </p>
+      <h2 className="text-2xl font-semibold mb-4">Description</h2>
+      <p className="text-slate-600 leading-8">{description}</p>
     </div>
   );
 };

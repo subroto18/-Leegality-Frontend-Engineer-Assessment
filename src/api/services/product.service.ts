@@ -35,7 +35,7 @@ export const productService = {
     return data;
   },
 
-  getProduct: async (id: string): Promise<Product> => {
+  getProduct: async (id: number | undefined): Promise<Product> => {
     const { data } = await axiosInstance.get<Product>(
       API_ENDPOINTS.PRODUCT_BY_ID(id),
     );
