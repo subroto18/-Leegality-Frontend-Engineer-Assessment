@@ -1,26 +1,26 @@
-import { useState } from "react";
-import { Drawer, Button } from "antd";
-import { FilterOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { Drawer } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
-import Pagination from "../components/Pagination/Pagination";
 import ProductFilters from "../components/ProductFilters/ProductFilters";
 import ProductGrid from "../components/ProductGrid/ProductGrid";
+import { useProductLayout } from "../context/useProductLayout";
+import Pagination from "@/components/ui/Pagination";
 
 const ProductListingPage = () => {
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const { setHasFilters, isFilterOpen, mobileFilterOpen, setMobileFilterOpen } =
+    useProductLayout();
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setHasFilters(true);
+
+    return () => {
+      setHasFilters(false);
+    };
+  }, [setHasFilters]);
 
   return (
     <>
-      <div className="lg:hidden mb-4">
-        <Button
-          icon={<FilterOutlined />}
-          onClick={() => setMobileFilterOpen(true)}
-        >
-          Filters
-        </Button>
-      </div>
-
       <div className="flex">
         {/* Desktop Sidebar */}
         <aside
@@ -35,9 +35,22 @@ const ProductListingPage = () => {
           {isFilterOpen && <ProductFilters />}
         </aside>
 
-        <section className="flex-1 min-w-0 lg:mx-10 py-6">
+        {/* Content */}
+        <section className="flex-1 min-w-0 mx-10 py-6">
+          {isFilterOpen && (
+            <div className="flex items-center gap-1 mb-6">
+              <SearchOutlined className="text-1xl text-slate-500" />
+              <h2 className="text-1xl font-semibold text-slate-800">Filters</h2>
+            </div>
+          )}
           <ProductGrid />
-          <Pagination />
+          <div className="mt-10">
+            <Pagination
+              currentPage={page}
+              totalPages={5}
+              onPageChange={setPage}
+            />
+          </div>
         </section>
       </div>
 

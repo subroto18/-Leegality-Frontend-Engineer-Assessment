@@ -1,5 +1,6 @@
 import Container from "@/components/common/Container";
 import Input from "@/components/ui/Input";
+import { useResponsive } from "@/hooks/useResponsive";
 import {
   SearchOutlined,
   ShoppingCartOutlined,
@@ -7,14 +8,27 @@ import {
   UserOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
+import { useProductLayout } from "../../context/useProductLayout";
+import Button from "@/components/ui/Button";
 const Header = () => {
+  const { isDesktop, isMobile } = useResponsive();
+  const { toggleDesktopFilter, setMobileFilterOpen } = useProductLayout();
+
+  const handleMenuClick = () => {
+    if (isDesktop) {
+      toggleDesktopFilter();
+      return;
+    }
+    setMobileFilterOpen(true);
+  };
+
   return (
     <header className="h-20 bg-gradient-to-r from-slate-700 to-slate-800  shadow-md">
       <Container className="h-full">
         <div className="h-full flex items-center justify-between">
-          <button className="text-white text-3xl hover:opacity-80 transition">
-            <MenuOutlined />
-          </button>
+          <Button uiVariant="ghostIcon" onClick={handleMenuClick}>
+            <MenuOutlined className="text-3xl" />
+          </Button>
 
           <div className="flex-1 max-w-2xl mx-12">
             <div className="relative">

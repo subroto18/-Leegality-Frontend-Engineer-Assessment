@@ -3,9 +3,17 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 import ProductDetail from "../components/ProductDetail/ProductDetail";
+import { useProductLayout } from "../context/useProductLayout";
+import { useEffect } from "react";
 
 const ProductDetailPage = () => {
   const navigate = useNavigate();
+
+  const { setHasFilters } = useProductLayout();
+
+  useEffect(() => {
+    setHasFilters(false);
+  }, [setHasFilters]);
 
   return (
     <div className="max-w-7xl mx-auto">

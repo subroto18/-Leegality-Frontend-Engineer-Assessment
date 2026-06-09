@@ -2,15 +2,18 @@
 
 import { Outlet } from "react-router-dom";
 import ProductHeader from "@/features/products/components/ProductHeader/Header";
+import { ProductLayoutProvider } from "../context/ProductLayoutContext";
 
 const ProductLayout = () => {
   return (
-    <div className="min-h-screen bg-white">
-      <ProductHeader />
-      <main>
-        <Outlet />
-      </main>
-    </div>
+    <ProductLayoutProvider>
+      <div className="min-h-screen bg-white">
+        <ProductHeader />
+        <main>
+          <Outlet />
+        </main>
+      </div>
+    </ProductLayoutProvider>
   );
 };
 

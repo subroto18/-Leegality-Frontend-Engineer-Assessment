@@ -1,21 +1,21 @@
 export const variantClasses = {
-    default: `
+  default: `
       !border-slate-200
       !bg-slate-100
       !text-slate-900
       hover:!border-slate-300
       hover:!bg-slate-200
     `,
-  
-    primary: `
+
+  primary: `
       !border-0
       !bg-cyan-500
       !text-white
       hover:!bg-cyan-400
       active:!bg-cyan-600
     `,
-  
-    auth: `
+
+  auth: `
       !rounded-2xl
       !border-0
       !bg-cyan-500
@@ -23,23 +23,23 @@ export const variantClasses = {
       !font-semibold
       hover:!bg-cyan-400
     `,
-  
-    danger: `
+
+  danger: `
       !border-0
       !bg-red-500
       !text-white
       hover:!bg-red-400
     `,
-  
-    ghost: `
+
+  ghost: `
       !border-white/10
       !bg-white/[0.04]
       !text-slate-200
       hover:!border-cyan-500/30
       hover:!bg-white/[0.08]
     `,
-  
-    icon: `
+
+  icon: `
       !border-0
       !bg-transparent
       !shadow-none
@@ -48,4 +48,26 @@ export const variantClasses = {
       hover:!text-primary
       hover:!bg-transparent
     `,
-  } as const;
+  ghostIcon: `
+    !border-none
+    !bg-transparent
+    !shadow-none
+    !text-white
+    hover:!opacity-80
+  `,
+  pagination: `
+  !bg-white
+  !border-slate-200
+  !text-slate-700
+  hover:!border-cyan-500
+  hover:!text-cyan-500
+  hover:!shadow-md
+`,
+
+  paginationActive: `
+  !bg-cyan-500
+  !border-cyan-500
+  !text-white
+  hover:!bg-cyan-500
+`,
+} as const;
