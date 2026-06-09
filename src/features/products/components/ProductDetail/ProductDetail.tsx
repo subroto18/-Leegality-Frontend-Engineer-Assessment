@@ -8,7 +8,6 @@ const ProductDetail = () => {
     <div className="grid grid-cols-1 lg:grid-cols-[45%_55%] gap-10">
       <div className="flex flex-col">
         <ProductImage />
-
         <div className="mt-[5rem]  justify-center ">
           <Pagination currentPage={1} totalPages={5} onPageChange={() => {}} />
         </div>
