@@ -19,3 +19,4 @@ export const getPriceRange = (products: Product[]) => {
     maxPrice: Math.max(...products.map((p) => p.price)),
   };
 };
+
