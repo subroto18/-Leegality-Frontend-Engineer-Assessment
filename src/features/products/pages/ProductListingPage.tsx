@@ -10,6 +10,7 @@ import { getPriceRange, getUniqueBrands } from "../utils/product.utils";
 import { useProductFilter } from "../context/useProductFilter";
 import { useProducts } from "../hooks/useProducts";
 import Button from "@/components/ui/Button";
+import FilterToolbar from "../components/ProductFilters/common/FilterToolbar";
 
 const PAGE_SIZE = 10;
 
@@ -82,8 +83,6 @@ const ProductListingPage = () => {
     ? Math.ceil(filteredProducts.length / PAGE_SIZE)
     : Math.ceil((data?.total ?? 0) / PAGE_SIZE);
 
-  console.log(isClientSidePagination, "isClientSidePagination");
-
   return (
     <>
       <div className="flex">
@@ -112,23 +111,24 @@ const ProductListingPage = () => {
 
         <section className="flex-1 min-w-0 mx-10 py-6">
           {isFilterOpen && (
-            <div className="flex items-center gap-1 mb-6">
-              <SearchOutlined className="text-slate-500" />
-              <h2 className="font-semibold text-slate-800">Filters</h2>
-
-              {isClientSidePagination && (
-                <Button uiVariant="filterClear" onClick={clearFilters}>
-                  <CloseCircleOutlined />
-                  Clear Filters
-                </Button>
-              )}
-            </div>
+            <FilterToolbar
+              showClear={isClientSidePagination}
+              onClear={clearFilters}
+            />
           )}
 
           {isError ? (
             <div>Failed to load products</div>
           ) : (
-            <ProductGrid products={productsToDisplay} isLoading={isLoading} />
+            <>
+              {!isFilterOpen && isClientSidePagination && (
+                <FilterToolbar
+                  showClear={isClientSidePagination}
+                  onClear={clearFilters}
+                />
+              )}
+              <ProductGrid products={productsToDisplay} isLoading={isLoading} />
+            </>
           )}
 
           {!isLoading && totalPages > 1 && (
