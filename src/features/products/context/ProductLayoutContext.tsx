@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const ProductLayoutProvider = ({ children }: Props) => {
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [hasFilters, setHasFilters] = useState(true);
 
