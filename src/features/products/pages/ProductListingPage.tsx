@@ -9,6 +9,7 @@ import { getUniqueBrands } from "../utils/product.utils";
 import { useProductFilter } from "../context/useProductFilter";
 import { useProducts } from "../hooks/useProducts";
 import FilterToolbar from "../components/ProductFilters/common/FilterToolbar";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const PAGE_SIZE = 10;
 
@@ -26,11 +27,11 @@ const ProductListingPage = () => {
   }, [setHasFilters]);
 
   const { filters, clearFilters, hasActiveFilters } = useProductFilter();
-
+  const debouncedSearch = useDebounce(filters.search);
   const { data, isLoading, isError } = useProducts({
     limit: PAGE_SIZE,
     skip,
-    search: filters.search,
+    search: debouncedSearch,
   });
 
   useEffect(() => {
