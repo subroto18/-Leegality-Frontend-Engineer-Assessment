@@ -18,6 +18,11 @@ const ProductDetailPage = () => {
   }, [setHasFilters]);
 
   const productId = Number(id);
+
+  if (!productId || Number.isNaN(productId)) {
+    return <ProductDetailError onRetry={() => refetch()} />;
+  }
+
   const {
     data: product,
     isLoading,
@@ -31,6 +36,22 @@ const ProductDetailPage = () => {
     navigate(`/product/${page}`);
   };
 
+  if (isLoading) {
+    return (
+      <Container>
+        <ProductDetailSkeleton />
+      </Container>
+    );
+  }
+
+  if (isError || !product) {
+    return (
+      <Container>
+        <ProductDetailError onRetry={refetch} />
+      </Container>
+    );
+  }
+
   return (
     <div className="mx-auto px-4 py-6 min-h-screen bg-[#F8F8FB]">
       <Container>
@@ -42,8 +63,6 @@ const ProductDetailPage = () => {
           Back
         </Button>
 
-        {isLoading && <ProductDetailSkeleton />}
-        {isError && <ProductDetailError onRetry={() => refetch()} />}
         {product && (
           <ProductDetail
             currentPage={productId}

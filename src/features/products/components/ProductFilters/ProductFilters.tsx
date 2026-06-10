@@ -5,6 +5,7 @@ import CategoryFilter from "./CategoryFilter";
 import PriceFilter from "./PriceFilter";
 import { ProductFiltersProps } from "../../types/product.types";
 import { useProductFilter } from "../../context/useProductFilter";
+import Divider from "@/components/ui/Divider";
 
 const ProductFilters = ({
   categories,
@@ -14,23 +15,25 @@ const ProductFilters = ({
 }: ProductFiltersProps) => {
   const { filters, updateFilters } = useProductFilter();
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFilters({
+      search: e.target.value,
+      categories: [],
+      brands: [],
+      maxPrice: "",
+      minPrice: "",
+    });
+  };
+
   return (
-    <aside className="w-full h-full bg-[#F3F3F4] p-6">
+    <aside className="w-full h-full p-6">
       <Input
         size="lg"
         uiVariant="search"
         prefix={<SearchOutlined />}
         placeholder="Search..."
         value={filters.search}
-        onChange={(e) =>
-          updateFilters({
-            search: e.target.value,
-            categories: [],
-            brands: [],
-            maxPrice: "",
-            minPrice: "",
-          })
-        }
+        onChange={handleSearchChange}
       />
 
       <div className="mt-8 space-y-6">
@@ -38,9 +41,9 @@ const ProductFilters = ({
           loading={isCategoryLoading || false}
           categories={categories}
         />
-        <div className="border-t border-slate-200" />
+        <Divider />
         <PriceFilter />
-        <div className="border-t border-slate-200" />
+        <Divider />
         <BrandFilter loading={isProductLoading} brands={brands} />
       </div>
     </aside>

@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useMemo, useState, type ReactNode } from "react";
 
 export interface ProductFilterState {
   search: string;
@@ -16,10 +10,9 @@ export interface ProductFilterState {
 
 interface ProductFilterContextType {
   filters: ProductFilterState;
-
   updateFilters: (filters: Partial<ProductFilterState>) => void;
-
   clearFilters: () => void;
+  hasActiveFilters: boolean;
 }
 
 const defaultFilters: ProductFilterState = {
@@ -52,11 +45,18 @@ export const ProductFilterProvider = ({ children }: Props) => {
     setFilters(defaultFilters);
   };
 
+  const hasActiveFilters =
+    filters.categories.length > 0 ||
+    filters.brands.length > 0 ||
+    !!filters.minPrice ||
+    !!filters.maxPrice;
+
   const value = useMemo(
     () => ({
       filters,
       updateFilters,
       clearFilters,
+      hasActiveFilters,
     }),
     [filters],
   );

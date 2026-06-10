@@ -41,8 +41,6 @@ export interface ProductFiltersProps {
   isCategoryLoading?: boolean;
   isProductLoading?: boolean;
   brands: string[];
-  minPrice: number;
-  maxPrice: number;
 }
 export interface Category {
   slug: string;

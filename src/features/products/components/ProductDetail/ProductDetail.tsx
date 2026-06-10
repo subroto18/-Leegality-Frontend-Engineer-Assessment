@@ -3,7 +3,7 @@ import ProductInfo from "./ProductInfo";
 import ReviewList from "./ReviewList";
 import { Product } from "../../types/product.types";
 import Pagination from "@/components/ui/Pagination";
-
+const TOTAL_PAGE_COUNT = 5;
 interface ProductDetailProps {
   product: Product;
   currentPage: number;
@@ -22,7 +22,7 @@ const ProductDetail = ({
         <div className="mt-[5rem]  justify-center ">
           <Pagination
             currentPage={currentPage}
-            totalPages={5}
+            totalPages={currentPage + TOTAL_PAGE_COUNT}
             onPageChange={onPageChange}
           />
         </div>

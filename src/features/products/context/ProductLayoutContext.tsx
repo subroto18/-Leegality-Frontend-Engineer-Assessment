@@ -4,7 +4,6 @@ interface ProductLayoutContextType {
   isFilterOpen: boolean;
   mobileFilterOpen: boolean;
   hasFilters: boolean;
-
   setIsFilterOpen: (value: boolean) => void;
   setMobileFilterOpen: (value: boolean) => void;
   setHasFilters: (value: boolean) => void;

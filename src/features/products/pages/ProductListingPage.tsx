@@ -1,15 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Drawer } from "antd";
-import { CloseCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import ProductFilters from "../components/ProductFilters/ProductFilters";
 import ProductGrid from "../components/ProductGrid/ProductGrid";
 import { useProductLayout } from "../context/useProductLayout";
 import Pagination from "@/components/ui/Pagination";
 import { useCategories } from "../hooks/useCategories";
-import { getPriceRange, getUniqueBrands } from "../utils/product.utils";
+import { getUniqueBrands } from "../utils/product.utils";
 import { useProductFilter } from "../context/useProductFilter";
 import { useProducts } from "../hooks/useProducts";
-import Button from "@/components/ui/Button";
 import FilterToolbar from "../components/ProductFilters/common/FilterToolbar";
 
 const PAGE_SIZE = 10;
@@ -27,11 +25,11 @@ const ProductListingPage = () => {
     };
   }, [setHasFilters]);
 
-  const { filters, clearFilters } = useProductFilter();
+  const { filters, clearFilters, hasActiveFilters } = useProductFilter();
+
   const { data, isLoading, isError } = useProducts({
-    limit: 10,
+    limit: PAGE_SIZE,
     skip,
-    category: filters.categories?.join(","),
     search: filters.search,
   });
 
@@ -61,32 +59,33 @@ const ProductListingPage = () => {
     });
   }, [products, filters]);
 
-  const brands = getUniqueBrands(products);
-  const { minPrice, maxPrice } = getPriceRange(products);
+  const brands = useMemo(() => getUniqueBrands(products), [products]);
 
   const paginatedProducts = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
     return filteredProducts.slice(start, start + PAGE_SIZE);
   }, [filteredProducts, page]);
 
-  const isClientSidePagination =
-    filters.categories.length > 0 ||
-    filters.brands.length > 0 ||
-    !!filters.minPrice ||
-    !!filters.maxPrice;
-
-  const productsToDisplay = isClientSidePagination
+  const productsToDisplay = hasActiveFilters
     ? paginatedProducts
     : filteredProducts;
 
-  const totalPages = isClientSidePagination
+  const totalPages = hasActiveFilters
     ? Math.ceil(filteredProducts.length / PAGE_SIZE)
     : Math.ceil((data?.total ?? 0) / PAGE_SIZE);
+
+  const shouldShowFilterToolbar = isFilterOpen || hasActiveFilters;
+
+  const filterProps = {
+    categories,
+    isCategoryLoading: categoryLoading,
+    isProductLoading: isLoading,
+    brands,
+  };
 
   return (
     <>
       <div className="flex">
-        {/* Desktop Sidebar */}
         <aside
           className={`
             hidden lg:block
@@ -99,31 +98,20 @@ const ProductListingPage = () => {
             ${isFilterOpen ? "w-[320px]" : "w-0"}
           `}
         >
-          <ProductFilters
-            categories={categories}
-            isCategoryLoading={categoryLoading}
-            isProductLoading={isLoading}
-            brands={brands}
-            minPrice={minPrice}
-            maxPrice={maxPrice}
-          />
+          <ProductFilters {...filterProps} />
         </aside>
 
         <section className="flex-1 min-w-0 mx-10 py-6">
-          {isFilterOpen && (
-            <FilterToolbar
-              showClear={isClientSidePagination}
-              onClear={clearFilters}
-            />
-          )}
-
           {isError ? (
-            <div>Failed to load products</div>
+            <div className="flex flex-col items-center justify-center py-20">
+              <h3 className="text-lg font-semibold">Failed to load products</h3>
+              <p className="text-slate-500 mt-2">Please try again later.</p>
+            </div>
           ) : (
             <>
-              {!isFilterOpen && isClientSidePagination && (
+              {shouldShowFilterToolbar && (
                 <FilterToolbar
-                  showClear={isClientSidePagination}
+                  showClear={hasActiveFilters}
                   onClear={clearFilters}
                 />
               )}
@@ -151,12 +139,9 @@ const ProductListingPage = () => {
         onClose={() => setMobileFilterOpen(false)}
         width={320}
       >
-        <ProductFilters
-          categories={categories}
-          brands={brands}
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-        />
+        <div className="bg-[#F3F3F4]">
+          <ProductFilters {...filterProps} />
+        </div>
       </Drawer>
     </>
   );

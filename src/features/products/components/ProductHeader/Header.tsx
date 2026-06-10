@@ -24,12 +24,10 @@ const Header = () => {
       navigate("/");
       return;
     }
-
     if (isDesktop) {
       toggleDesktopFilter();
       return;
     }
-
     setMobileFilterOpen(true);
   };
 
