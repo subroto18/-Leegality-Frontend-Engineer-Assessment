@@ -65,9 +65,26 @@ export const variantClasses = {
 `,
 
   paginationActive: `
-  !bg-cyan-500
-  !border-cyan-500
+  !bg-primary
+  !border-primary
   !text-white
-  hover:!bg-cyan-500
+  hover:!bg-primary
+`,
+  filterClear: `
+  !border-0
+  !bg-transparent
+  !shadow-none
+  !text-primary
+  hover:!text-primary/80
+  hover:!bg-transparent
+  !px-0
+  `,
+  filterApply: `
+  !w-full
+  !bg-primary
+  !border-primary
+  !text-white
+  hover:!bg-primary/90
+  hover:!border-primary/90
 `,
 } as const;

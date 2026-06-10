@@ -2,6 +2,7 @@ import Checkbox from "@/components/ui/Checkbox";
 import ExpandableFilterSection from "../ExpandableFilterSection/ExpandableFilterSection";
 import { useProductFilter } from "../../context/useProductFilter";
 import FilterLoading from "./FilterLoading";
+import FilterSectionHeader from "./common/FilterSectionHeader";
 
 interface BrandFilterProps {
   brands: string[];
@@ -27,9 +28,20 @@ const BrandFilter = ({ brands, loading }: BrandFilterProps) => {
     return <FilterLoading title={"Brands"} />;
   }
 
+  const isBrandFilterActive = filters.brands.length > 0;
+
   return (
     <div>
-      <h3 className="font-semibold text-lg mb-4">Brands</h3>
+      <FilterSectionHeader
+        title="Brands"
+        count={filters.brands.length}
+        showClear={isBrandFilterActive}
+        onClear={() =>
+          updateFilters({
+            brands: [],
+          })
+        }
+      />
 
       <ExpandableFilterSection
         items={brands}

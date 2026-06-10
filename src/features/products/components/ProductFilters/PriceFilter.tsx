@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 
 import { useProductFilter } from "../../context/useProductFilter";
+import FilterSectionHeader from "./common/FilterSectionHeader";
 
 const PriceFilter = () => {
   const { filters, updateFilters } = useProductFilter();
@@ -22,9 +23,21 @@ const PriceFilter = () => {
     });
   };
 
+  const isPriceFilterActive = !!filters.minPrice || !!filters.maxPrice;
+
   return (
     <div>
-      <h3 className="font-semibold text-lg mb-4">Price Range</h3>
+      <FilterSectionHeader
+        title="Price Range"
+        showClear={isPriceFilterActive}
+        onClear={() =>
+          updateFilters({
+            minPrice: "",
+            maxPrice: "",
+          })
+        }
+      />
+
       <div className="flex gap-3">
         <Input
           type="number"
@@ -40,16 +53,7 @@ const PriceFilter = () => {
           onChange={(e) => setMaxPrice(e.target.value)}
         />
       </div>
-
-      <Button
-        onClick={handleApply}
-        className="
-          w-full
-          mt-4
-          !bg-blue-500
-          !text-white
-        "
-      >
+      <Button uiVariant="filterApply" className="mt-4" onClick={handleApply}>
         Apply
       </Button>
     </div>

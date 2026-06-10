@@ -1,7 +1,6 @@
 import ProductImage from "./ProductImage";
 import ProductInfo from "./ProductInfo";
 import ReviewList from "./ReviewList";
-
 import { Product } from "../../types/product.types";
 import Pagination from "@/components/ui/Pagination";
 

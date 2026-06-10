@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Drawer } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import ProductFilters from "../components/ProductFilters/ProductFilters";
 import ProductGrid from "../components/ProductGrid/ProductGrid";
 import { useProductLayout } from "../context/useProductLayout";
@@ -9,6 +9,7 @@ import { useCategories } from "../hooks/useCategories";
 import { getPriceRange, getUniqueBrands } from "../utils/product.utils";
 import { useProductFilter } from "../context/useProductFilter";
 import { useProducts } from "../hooks/useProducts";
+import Button from "@/components/ui/Button";
 
 const PAGE_SIZE = 10;
 
@@ -17,18 +18,15 @@ const ProductListingPage = () => {
     useProductLayout();
   const [page, setPage] = useState(1);
   const skip = (page - 1) * PAGE_SIZE;
-
   const { data: categories = [], isLoading: categoryLoading } = useCategories();
-
   useEffect(() => {
     setHasFilters(true);
-
     return () => {
       setHasFilters(false);
     };
   }, [setHasFilters]);
 
-  const { filters } = useProductFilter();
+  const { filters, clearFilters } = useProductFilter();
   const { data, isLoading, isError } = useProducts({
     limit: 10,
     skip,
@@ -41,7 +39,6 @@ const ProductListingPage = () => {
   }, [filters]);
 
   const products = data?.products ?? [];
-
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const matchesCategory =
@@ -63,7 +60,6 @@ const ProductListingPage = () => {
     });
   }, [products, filters]);
 
-  const totalProducts = data?.total ?? 0;
   const brands = getUniqueBrands(products);
   const { minPrice, maxPrice } = getPriceRange(products);
 
@@ -85,6 +81,8 @@ const ProductListingPage = () => {
   const totalPages = isClientSidePagination
     ? Math.ceil(filteredProducts.length / PAGE_SIZE)
     : Math.ceil((data?.total ?? 0) / PAGE_SIZE);
+
+  console.log(isClientSidePagination, "isClientSidePagination");
 
   return (
     <>
@@ -112,12 +110,18 @@ const ProductListingPage = () => {
           />
         </aside>
 
-        {/* Content */}
         <section className="flex-1 min-w-0 mx-10 py-6">
           {isFilterOpen && (
             <div className="flex items-center gap-1 mb-6">
               <SearchOutlined className="text-slate-500" />
               <h2 className="font-semibold text-slate-800">Filters</h2>
+
+              {isClientSidePagination && (
+                <Button uiVariant="filterClear" onClick={clearFilters}>
+                  <CloseCircleOutlined />
+                  Clear Filters
+                </Button>
+              )}
             </div>
           )}
 

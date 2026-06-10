@@ -1,8 +1,11 @@
 import Checkbox from "@/components/ui/Checkbox";
+import Button from "@/components/ui/Button";
 import ExpandableFilterSection from "../ExpandableFilterSection/ExpandableFilterSection";
 import type { Category } from "../../types/product.types";
 import { useProductFilter } from "../../context/useProductFilter";
 import FilterLoading from "./FilterLoading";
+import { CloseCircleOutlined } from "@ant-design/icons";
+import FilterSectionHeader from "./common/FilterSectionHeader";
 
 interface CategoryFilterProps {
   categories: Category[];
@@ -28,9 +31,20 @@ const CategoryFilter = ({ categories, loading }: CategoryFilterProps) => {
     return <FilterLoading title={"Categories"} />;
   }
 
+  const isCategoryFilterActive = filters.categories.length > 0;
+
   return (
     <div>
-      <h3 className="font-semibold text-lg mb-4">Categories</h3>
+      <FilterSectionHeader
+        title="Categories"
+        count={filters.categories.length}
+        showClear={isCategoryFilterActive}
+        onClear={() =>
+          updateFilters({
+            categories: [],
+          })
+        }
+      />
 
       <ExpandableFilterSection
         items={categories}

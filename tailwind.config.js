@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#1677ff", // Ant Design primary color match
+        primary: "#1677ff",
         dark: "#0f172a",
         light: "#f8fafc",
       },
